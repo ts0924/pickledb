@@ -39,11 +39,15 @@ import json
 from tempfile import NamedTemporaryFile
 from threading import Thread
 
-
-def load(location, auto_dump, sig=True):
+def load(location, auto_dump, sig = True):
     '''Return a pickledb object. location is the path to the json file.'''
-    return PickleDB(location, auto_dump, sig)
-
+    db = False
+    while db == False:
+        try:
+            db = PickleDB(location, auto_dump, sig)
+        except:
+            db = False
+    return db
 
 class PickleDB(object):
 
@@ -295,4 +299,3 @@ class PickleDB(object):
         self.db = {}
         self._autodumpdb()
         return True
-
